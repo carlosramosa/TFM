@@ -1,0 +1,16 @@
+{
+  "name": "tfm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "productor": "node productor/index.js",
+    "consumidor": "node consumidor/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "kafka-streams": "^4.11.0",
+    "kafkajs": "^1.8.0"
+  }
+}

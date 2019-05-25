@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "productor": "node productor/index.js",
-    "consumidor": "node consumidor/index.js"
+    "consumidor": "node consumidor/index.js",
+    "consumidor-tabla": "node consumidor/ktable.js"
   },
   "author": "",
   "license": "ISC",

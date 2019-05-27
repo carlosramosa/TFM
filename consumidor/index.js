@@ -8,7 +8,16 @@ kafkaStreams.on("error", (error) => console.error(error));
 
 const kafkaTopicName = "mitopic";
 const stream = kafkaStreams.getKStream(kafkaTopicName);
-stream.forEach((message) => {
+stream
+.mapJSONConvenience()
+    .mapWrapKafkaValue()
+    .tap((msg) =>
+        console.log('one', msg))
+    //  .wrapAsKafkaValue()
+    //  .tap((msg) =>
+    //  console.log('one', msg))
+
+.forEach((message) => {
     console.log('================================');
     console.log("key", message.key ? message.key.toString("utf8") : null);
     console.log("value", message.value ? message.value.toString("utf8") : null);

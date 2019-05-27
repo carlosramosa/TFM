@@ -6,12 +6,16 @@
   "scripts": {
     "productor": "node productor/index.js",
     "consumidor": "node consumidor/index.js",
-    "consumidor-tabla": "node consumidor/ktable.js"
+    "consumidor-tabla": "node consumidor/ktable.js",
+    "consumidor-window": "node consumidor/window.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bson-objectid": "^1.2.5",
+    "elasticsearch": "^16.0.0",
     "kafka-streams": "^4.11.0",
-    "kafkajs": "^1.8.0"
+    "kafkajs": "^1.8.0",
+    "moment": "^2.24.0"
   }
 }

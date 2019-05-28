@@ -10,7 +10,7 @@ const client = new elasticsearch.Client({
     log: 'trace'
 });
 
-const makeSearch = () => {
+const makeSearch = async () => {
 
     const ELASTIC_TOPIC = process.env.ELASTIC_TOPIC || 'mitopic';
     const kafkaStreams = new KafkaStreams(config);
@@ -19,9 +19,9 @@ const makeSearch = () => {
         console.log('Error occured:', error.message);
     });
 
-    const consumeStream = kafkaStreams.getKStream('mitopic');
+    const consumeStream = kafkaStreams.getKStream('asd');
 
-    const windowPeriod = 10 * 1000; // 10 seconds
+    const windowPeriod = 5 * 1000; // 10 seconds
     const from = Date.now();
     const to = Date.now() + windowPeriod;
 
@@ -40,14 +40,17 @@ const makeSearch = () => {
         ).then(_ => {
             //done
             kafkaStreams.closeAll();
+            run();
         });
 
     //start the stream
     consumeStream.start();
 }
 
-const run = async () =>
+const run = async () => {
+
     await makeSearch ();
+};
 
 run()
     .catch (console.error);

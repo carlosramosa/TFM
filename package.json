@@ -7,7 +7,8 @@
     "productor": "node productor/index.js",
     "consumidor": "node consumidor/index.js",
     "consumidor-tabla": "node consumidor/ktable.js",
-    "consumidor-window": "node consumidor/window.js"
+    "consumidor-window": "node consumidor/window.js",
+    "consumidor-elastic": "node kafka-to-elastic/index.js"
   },
   "author": "",
   "license": "ISC",

@@ -11,9 +11,11 @@ const bodyBulkInsert = ({ docs, index, type }) =>
 
 
 module.exports = ({ client, docs, index, type }) =>
-
-    client.bulk(
+{
+    console.log (JSON.stringify({ docs, index }, null, 4));
+    return client.bulk(
     {
         body: bodyBulkInsert({ docs, index, type })
     }
-);
+    )
+};

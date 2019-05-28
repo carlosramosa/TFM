@@ -23,11 +23,11 @@ const run = async () => {
     //message = { key: 'youtube', value: JSON.stringify({quality: qualities[Math.floor(Math.random() * 6) ], ping: Math.floor(Math.random() * 200) + 1 })};
     const messages = [
         generateMessage ()
-        , generateMessage ()
-        , generateMessage ()
+        // , generateMessage ()
+        // , generateMessage ()
     ];
     await producer.send({
-        topic: 'mitopic',
+        topic: 'asd',
         messages
     });
     setTimeout((() => {
@@ -38,4 +38,3 @@ const run = async () => {
 
 run ()
     .catch (console.error);
-

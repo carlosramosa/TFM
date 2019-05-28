@@ -17,17 +17,13 @@ kafkaStreams.on("error", (error) => {
 //used to turn the kafka messages into key-value objects
 //as tables can only be built on key-value pairs
 
-const keyValueMapperEtl = ({ value, key })  => {
+function keyMapper  (a)  {
+    const asd = JSON.parse(a.value);
+        return ({ ts: time, key: key.toString(), value: JSON.parse(value.toString()) });
+};
 
-    const message = { 'key': ( typeof key !== 'string' ? 'youtube' : key) + Date.now(), 'value': JSON.parse(value) };
 
-    console.log ('Message consumed  ---->  ' + JSON.stringify(message));
-
-    return message;
-}
-
-const makeSearch = () => {
-    const table = kafkaStreams.getKTable("mitopic", keyValueMapperEtl);
+    const table = kafkaStreams.getKTable("asd", keyMapper);
 
     //consume the first 100 messages on the topic to build the table
     table
@@ -51,7 +47,6 @@ const makeSearch = () => {
             //replay will simply place every key-value member
             //of the internal map onto the stream once again
             table.replay();
-
             //kafka consumer will be closed automatically
         })
         //be aware that any operator you append during this runtime
@@ -60,19 +55,18 @@ const makeSearch = () => {
         .atThroughput(50, () => {
             //fires once when 50 messages are consumed
             console.log("consumed 50 messages.");
+            run();
         });
 
-    table.start();
-}
+
 
 
 const run = async () => {
-    makeSearch();
+    await table.start()
 
-    setTimeout (() => {
-        run ();
-    }, 1000)
 };
+
+    
 
 run ()
     .catch (console.error);

@@ -8,7 +8,9 @@
     "consumidor": "node consumidor/index.js",
     "consumidor-tabla": "node consumidor/ktable.js",
     "consumidor-window": "node consumidor/window.js",
-    "consumidor-elastic": "node kafka-to-elastic/index.js"
+    "consumidor-elastic": "node kafka-to-elastic/index.js",
+    "consumidor-elastic-proto": "node kafka-to-elastic/simple_inserter.js",
+    "ps": "cd elastic-compose && docker-compose ps && cd .. && cd cp-all-in-one && docker-compose ps && cd .."
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +19,7 @@
     "elasticsearch": "^16.0.0",
     "kafka-streams": "^4.11.0",
     "kafkajs": "^1.8.0",
-    "moment": "^2.24.0"
+    "moment": "^2.24.0",
+    "mongodb": "^3.2.6"
   }
 }

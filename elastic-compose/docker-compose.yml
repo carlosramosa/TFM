@@ -58,6 +58,13 @@ services:
       - app_net
     depends_on:
       - elasticsearch
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pass
+
 networks:
   app_net:
     driver: bridge

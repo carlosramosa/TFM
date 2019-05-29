@@ -29,7 +29,7 @@ const makeSearch = async () => {
     //a message with a timestamp value: { key, value }  larger or equal to 'to' will end the window
     //and emit all collected messages on the returned stream
     const { stream, abort } = consumeStream.window(from, to);
-    const keyMapper = ({ time, value: { key, value } }) =>
+    const keyMapper = ({ timestamp, value: { key, value } }) =>
         ({ ts: time, key: key.toString(), value: JSON.parse(value.toString()) });
     stream
         //.take(10) //take the first 10 messages from within the window and close the stream

@@ -2,9 +2,9 @@
 
 const { KafkaStreams } = require("kafka-streams");
 const { makeIndex } = require ('./helper');
-const config = require ('./config.json');
+const config = require ('./config.json.js');
 const Insert = require ('./insert');
-const elasticsearch = require('elasticsearch');
+const elasticsearch = require('./node_modules/elasticsearch');
 const client = new elasticsearch.Client({
     host: 'elastic:changeme@localhost:9200',
     log: 'trace'

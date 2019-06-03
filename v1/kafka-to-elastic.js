@@ -16,7 +16,7 @@ const client = new elasticsearch.Client({
     log: 'trace'
 });
 
-const consumer = kafka.consumer({ groupId: 'mitopic', fromBeginning: true })
+const consumer = kafka.consumer({ groupId: 'pene-group', fromBeginning: true })
 
 const run = async () => {
 
@@ -32,7 +32,7 @@ const run = async () => {
         })
         const { timestamp, value, key } = message;
         return Insert ({ client, docs: { ...JSON.parse(value.toString()), date: new Date (parseFloat(timestamp))}, index: makeIndex ({ key: key.toString(), timestamp: parseFloat(timestamp) }), type: 'metrics' });
-    },
+    }
     })
 };
 

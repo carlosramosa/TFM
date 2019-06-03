@@ -41,7 +41,7 @@ const run = async () => {
         ];
 
         await producer.sendBatch({ topicMessages })
-    },
+    }
     })
 };
 

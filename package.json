@@ -8,8 +8,11 @@
     "consumidor": "node consumidor/index.js",
     "consumidor-tabla": "node consumidor/ktable.js",
     "consumidor-window": "node consumidor/window.js",
-    "consumidor-elastic": "node kafka-to-elastic/index.js",
-    "consumidor-elastic-proto": "node kafka-to-elastic/simple_inserter.js",
+    "consumidor-elastic-old": "node kafka-to-elastic/index.js",
+    "consumidor-elastic": "node v1/kafka-to-elastic.js",
+    "consumidor-mongo": "node kafka-to-mongo/kafka-to-mongo.js",
+    "consumidor-multiplexer": "node v1/multiplexer.js",
+    "consumidor-alerts": "node v1/alerts.js",
     "ps": "cd elastic-compose && docker-compose ps && cd .. && cd cp-all-in-one && docker-compose ps && cd .."
   },
   "author": "",

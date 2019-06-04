@@ -1,36 +1,79 @@
-"use strict";
+'use strict';
 
-const { KafkaStreams } = require("kafka-streams");
-const  config = require("./config.json");
+const { makeIndex } = require ('./helper');
+const { Kafka } = require('kafkajs')
+const { gt, gte, lt, lte } = require ('lodash');
 
-const kafkaStreams = new KafkaStreams({
+const kafka = new Kafka({
     clientId: 'my-app',
     brokers: ['localhost:9092']
+})
+
+
+const elasticsearch = require('elasticsearch');
+const client = new elasticsearch.Client({
+    host: 'elastic:changeme@localhost:9200',
+    log: 'trace'
 });
 
-kafkaStreams.on("error", (error) => {
-    console.log("Error occured:", error.message);
-});
+const consumer = kafka.consumer({ groupId: 'pene-group', fromBeginning: true })
 
-const consumeStream = kafkaStreams.getKStream("to-alerts");
+const TTL = process.env.TTL || 3600000;
+const COUNT = process.env.COUNT || 20;
+const THRESHOLD = process.env.THRESHOLD || 100;
+const OPERATOR = process.env.OPERATOR || 'GT';
+const data = {
+    count: null
+    , average: null
+    , timestamp: null
+};
+const calculateAverage = ({ count, average }) => value => 
+    ((average * count) + value) / count + 1;
 
-const windowPeriod = 30 * 1000; // 30 seconds
-const from = Date.now();
-const to = Date.now() + windowPeriod;
+const processors = {
+    GTE: gte,
+    LTE: lte,
+    LT: lt,
+    GT: gt
+};
 
-//window will collect messages that fall in the period range
-//a message with a timestamp larger or equal to "to" will end the window
-//and emit all collected messages on the returned stream
-const { stream, abort } = consumeStream.window(from, to);
+const run = async () => {
 
-stream
-    .take(10) //take the first 10 messages from within the window and close the stream
-    .forEach(windowMessage => {
-        console.log(windowMessage); //do something with the message that was within the window
-    }).then(_ => {
-        //done
-        kafkaStreams.closeAll();
+
+    await consumer.connect();
+    await consumer.subscribe({ topic: 'to-alerts' });
+
+    await consumer.run({
+    eachMessage: async ({ topic, partition, message }) => {
+        console.log({
+        value: message.value.toString(),
+        key: message.key.toString ()
+        })
+        const { timestamp, value: valueKfk, key } = message;
+
+        const value = parseInt(valueKfk.toString());
+
+        if (!data.timestamp) {
+            data.timestamp = Date.now();
+            data.average = value;
+            data.count = 1;
+        }
+        else {
+            console.info('Media: ' + data.average);
+            data.count ++;
+            data.average = calculateAverage ({ count: data.count, average: data.average || value }) (value);
+            if (Date.now() - data.timestamp >  TTL || data.count > COUNT ) {
+                if (processors[OPERATOR](data.average, THRESHOLD) ){
+                    console.log('Alerta, la media es: ' + data.average);
+                    data.timestamp = null;
+                }
+                if (data.count > COUNT){
+                    console.log('Se han procesado ' + data.count + ' documentos');
+                }
+            }
+        }
+    }
     });
+};
 
-//start the stream
-consumeStream.start();
+run();

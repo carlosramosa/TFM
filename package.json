@@ -4,21 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "productor": "node productor/index.js",
-    "consumidor": "node consumidor/index.js",
-    "consumidor-tabla": "node consumidor/ktable.js",
-    "consumidor-window": "node consumidor/window.js",
-    "consumidor-elastic-old": "node kafka-to-elastic/index.js",
+    "start-kafka": "cd docker-compose/confluent-kafka && docker-compose up -d --build && cd .. && cd ..",
+    "start-elastic-mongo": "cd docker-compose/elastic-compose && docker-compose up -d --build && cd .. && cd ..",
+    "productor": "node v1/productor.js",
     "consumidor-elastic": "node v1/kafka-to-elastic.js",
     "consumidor-mongo": "node kafka-to-mongo/kafka-to-mongo.js",
     "consumidor-multiplexer": "node v1/multiplexer.js",
     "consumidor-alerts": "node v1/alerts.js",
-    "ps": "cd elastic-compose && docker-compose ps && cd .. && cd cp-all-in-one && docker-compose ps && cd .."
+    "docker-ps": "cd docker-compose/elastic-compose && docker-compose ps && cd .. && cd confluent-kafka && docker-compose ps && cd .. && cd ..",
+    "docker-stop": "cd docker-compose/elastic-compose && docker-compose stop && cd .. && cd confluent-kafka && docker-compose stop && cd .. && cd .."
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bson-objectid": "^1.2.5",
+    "chalk": "^2.4.2",
     "elasticsearch": "^16.0.0",
     "kafka-streams": "^4.11.0",
     "kafkajs": "^1.8.0",

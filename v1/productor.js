@@ -8,7 +8,7 @@ const kafka = new Kafka({
 })
 
 const generateMessage = () => (
-    { key: 'speed', value: JSON.stringify({downAvg: Math.floor(Math.random() * 200) + 1 , upAvg: Math.floor(Math.random() * 200) + 1 })}
+    { key: 'speed', value: (Math.floor(Math.random() * 150)*2 + 1).toString() }
 );
 
 const qualities = [360, 480, 720, 1080, 1440, 2160];

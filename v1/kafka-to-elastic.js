@@ -31,7 +31,8 @@ const run = async () => {
         key: message.key.toString ()
         })
         const { timestamp, value, key } = message;
-        return Insert ({ client, docs: { ...JSON.parse(value.toString()), date: new Date (parseFloat(timestamp))}, index: makeIndex ({ key: key.toString(), timestamp: parseFloat(timestamp) }), type: 'metrics' });
+        const docs = JSON.parse(value.toString());
+        return Insert ({ client, docs: { value: JSON.parse(value.toString()), date: new Date (parseFloat(timestamp))}, index: makeIndex ({ key: key.toString(), timestamp: parseFloat(timestamp) }), type: 'metrics' });
     }
     })
 };

@@ -26,7 +26,7 @@ const run = async () => {
         key: message.key.toString ()
         })
         const { timestamp, value, key } = message;
-        return dbo.collection("miPolla").insertOne({ timestamp, value, key});
+        return dbo.collection("miPolla").insertOne({ timestamp, value: parseInt(value.toString()), test: key.toString()});
     },
     })
 };

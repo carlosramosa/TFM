@@ -1,18 +1,23 @@
 'use strict';
 
-const { makeIndex } = require ('./helper');
 const { Kafka } = require('kafkajs')
-const config = require ('./config.json');
 const Insert = require ('./insert');
+
+const ELASTIC_URL = process.env.ELASTIC_URL || 'elastic:changeme@localhost:9200';
+const KAFKA_BROKER = process.env.KAFKA_BROKER || 'localhost:9092';
+const ELASTIC_TOPIC = process.env.ELASTIC_TOPIC || 'to-elastic';
+
+const makeIndex = ({ key, timestamp }) =>
+    `${key}-${ new Date (timestamp).getMonth() + 1 }-${new Date (timestamp).getFullYear()}`
 
 const kafka = new Kafka({
     clientId: 'my-app',
-    brokers: ['localhost:9092']
-})
+    brokers: [KAFKA_BROKER]
+});
 
 const elasticsearch = require('elasticsearch');
 const client = new elasticsearch.Client({
-    host: 'elastic:changeme@localhost:9200',
+    host: ELASTIC_URL,
     log: 'trace'
 });
 
@@ -22,10 +27,10 @@ const run = async () => {
 
 
     await consumer.connect()
-    await consumer.subscribe({ topic: 'to-elastic' })
+    await consumer.subscribe({ topic: ELASTIC_TOPIC })
 
     await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
+    eachMessage: async ({ message }) => {
         console.log({
         value: message.value.toString(),
         key: message.key.toString ()

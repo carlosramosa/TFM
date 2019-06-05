@@ -1,13 +1,14 @@
 'use strict';
 
-const { makeIndex } = require ('./helper');
 const { Kafka } = require('kafkajs')
-const config = require ('./config.json');
-const Insert = require ('./insert');
+
+const KAFKA_BROKER = process.env.KAFKA_BROKER || 'localhost:9092';
+const MULTIPLEXER_TOPIC = process.env.MULTIPLEXER_TOPIC || 'to-multiplexer';
+
 
 const kafka = new Kafka({
     clientId: 'my-app',
-    brokers: ['localhost:9092']
+    brokers: [KAFKA_BROKER]
 })
 
 const consumer = kafka.consumer({ groupId: 'test-group' });
@@ -15,14 +16,12 @@ const consumer = kafka.consumer({ groupId: 'test-group' });
 const run = async () => {
 
     await consumer.connect()
-    await consumer.subscribe({ topic: 'asd' })
+    await consumer.subscribe({ topic: MULTIPLEXER_TOPIC })
     const producer = kafka.producer()
     await producer.connect();
-    // await consumer.subscribe({ topic: 'asdasd' })
-    // await consumer.subscribe({ topic: 'asdasdasd' })
 
     await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
+    eachMessage: async ({ message }) => {
 
         console.log ('Send message ' + message);
         const topicMessages = [

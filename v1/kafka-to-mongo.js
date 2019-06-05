@@ -1,26 +1,27 @@
 'use strict';
 
 const { Kafka } = require('kafkajs')
-const config = require ('./config.json');
+const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/';
+const KAFKA_BROKER = process.env.KAFKA_BROKER || 'localhost:9092';
+const MONGO_TOPIC = process.env.MONGO_TOPIC || 'to-mongo';
 
 const kafka = new Kafka({
     clientId: 'my-app',
-    brokers: ['localhost:9092']
+    brokers: [KAFKA_BROKER]
 });
 
 const MongoClient = require('mongodb').MongoClient;
-const url = process.env.MONGO_URL || "mongodb://localhost:27017/";
 const consumer = kafka.consumer({ groupId: 'mitopic', fromBeginning: true })
 const run = async () => {
 
-    const database = await MongoClient.connect(url) ;
+    const database = await MongoClient.connect(MONGO_URL) ;
     const dbo = database.db("DATABASE_PRUEBAS");
 
     await consumer.connect()
-    await consumer.subscribe({ topic: 'to-mongo' })
+    await consumer.subscribe({ topic: MONGO_TOPIC })
 
     await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
+    eachMessage: async ({ message }) => {
         console.log({
         value: message.value.toString(),
         key: message.key.toString ()

@@ -1,8 +1,8 @@
 {
-    "noptions": {
-        "metadata.broker.list": "localhost:9092",
-        "group.id": "mitopic",
-        "client.id": "mitopic",
+    "options": {
+        "metadata.broker.list": ["localhost:9092"],
+        "group.id": "test-group",
+        "client.id": "test-group",
         "event_cb": true,
         "compression.codec": "snappy",
         "api.version.request": true,

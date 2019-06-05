@@ -1,0 +1,70 @@
+version: '2'
+services:
+
+  # Cerebro Elasticsearch client
+  cerebro:
+    build: .
+
+    # Instead of building the image locally,  can use:
+    # image: yannart/cerebro:latest
+
+    ports:
+      - "9000:9000"
+    networks:
+      - app_net
+
+  # Elasticsearch cluster
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.2
+    environment:
+      - cluster.name=es-cluster
+      - node.name=es1
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    mem_limit: 1g
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - app_net
+
+  elasticsearch2:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.2
+    environment:
+      - cluster.name=es-cluster
+      - node.name=es2
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.zen.ping.unicast.hosts=elasticsearch"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    mem_limit: 1g
+    ports:
+      - "9201:9200"
+      - "9301:9300"
+    networks:
+      - app_net
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.4.2
+    ports:
+      - 5601:5601
+    networks:
+      - app_net
+    depends_on:
+      - elasticsearch
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pass
+
+networks:
+  app_net:
+    driver: bridge

@@ -8,7 +8,7 @@ const kafka = new Kafka({
 })
 
 const generateMessage = () => (
-    { key: 'youtube', value: JSON.stringify({quality: qualities[Math.floor(Math.random() * 6) ], ping: Math.floor(Math.random() * 200) + 1 })}
+    { key: 'speed', value: JSON.stringify({downAvg: Math.floor(Math.random() * 200) + 1 , upAvg: Math.floor(Math.random() * 200) + 1 })}
 );
 
 const qualities = [360, 480, 720, 1080, 1440, 2160];
@@ -23,11 +23,11 @@ const run = async () => {
     //message = { key: 'youtube', value: JSON.stringify({quality: qualities[Math.floor(Math.random() * 6) ], ping: Math.floor(Math.random() * 200) + 1 })};
     const messages = [
         generateMessage ()
-        , generateMessage ()
-        , generateMessage ()
+        // , generateMessage ()
+        // , generateMessage ()
     ];
     await producer.send({
-        topic: 'mitopic',
+        topic: 'asd',
         messages
     });
     setTimeout((() => {
@@ -38,4 +38,3 @@ const run = async () => {
 
 run ()
     .catch (console.error);
-

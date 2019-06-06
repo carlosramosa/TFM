@@ -2,6 +2,13 @@
 
 ![alt text](diagrama.png)
 
+## REQUISITOS PREVIOS
+
+- Mínimo 16gb de memoria RAM
+- Tener instalado docker y docker-compose
+- Subir la RAM mínima destinada a docker a 12gb en el menú de docker `/preferences/advanced`
+- Tener instalado NodeJS
+
 ## Puesta en marcha de Kafka, ElasticSearch & MongoDB
 
 ### Kafka

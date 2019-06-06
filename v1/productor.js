@@ -1,26 +1,24 @@
 const { Kafka } = require('kafkajs');
 
-const TOPIC = 'mitopic';
+const MAX_VALUE = process.env.MAX_VALUE || 0;
+const MIN_VALUE = process.env.MIN_VALUE || 100;
+const KAFKA_BROKER = process.env.KAFKA_BROKER || 'localhost:9092';
+const TEST = process.env.TEST || 'speed-up';
+const TIMEOUT = process.env.TIMEOUT || 1000;
 
 const kafka = new Kafka({
     clientId: 'my-app',
-    brokers: ['localhost:9092']
+    brokers: [KAFKA_BROKER]
 })
 
 const generateMessage = () => (
-    { key: 'speed', value: (Math.floor(Math.random() * 150)*2 + 1).toString() }
+    { key: TEST, value: (Math.floor(Math.random() * MAX_VALUE) + MIN_VALUE).toString() }
 );
 
-const qualities = [360, 480, 720, 1080, 1440, 2160];
-
 const producer = kafka.producer()
-const consumer = kafka.consumer({ groupId: 'test-group' })
-//let messages = [];
 
 const run = async () => {
-  // Producing
     await producer.connect()
-    //message = { key: 'youtube', value: JSON.stringify({quality: qualities[Math.floor(Math.random() * 6) ], ping: Math.floor(Math.random() * 200) + 1 })};
     const messages = [
         generateMessage ()
         // , generateMessage ()

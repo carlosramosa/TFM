@@ -67,6 +67,10 @@ Para poner en funcionamiento el proyecto necesitaremos crear topics. Si usamos l
 - `to-elastic`: es el topic que se encargará de recibir los mensajes que se insertarán a ElasticSearch.
 - `to-alerts`: es el topic que se encargará de recibir los mensajes para generar las alertas.
 
+Los topics los crearemos a través del Control Center de Confluent, dfonde especificaremos el número de particiones del topic, su replicación, tamaño del mensaje, TTL del mensaje, etc..
+
+![alt text](images/controlcenter.png)
+
 ## Productor
 
 Es el encargado de generar los mensajes emulando los dispositivos IoT.
@@ -137,6 +141,8 @@ Existen las siguientes variables de entorno:
 - `COUNT`: número de documentos necesarios para notificar una alerta y comprobar el estado de la media de los valores. Por defecto es 10.
 - `THRESHOLD`: valor con el que valor a comparar la media para decidir si se genera una alerta o no. Por defecto es 100
 - `COMPARATOR`: operador de comparación para operar sobre el valor. Sus valores posibles son `GT`, `GTE`, `LT` y `LTE`. Por defecto es `GT`.
+- `KAFKA_BROKER`: por defecto `localhost:9092`
+- `ALERTS_TOPIC`: por defecto `to-alerts`
 
 Un ejemplo de configuración sería:
 ```

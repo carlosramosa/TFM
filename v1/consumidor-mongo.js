@@ -11,7 +11,7 @@ const kafka = new Kafka({
 });
 
 const MongoClient = require('mongodb').MongoClient;
-const consumer = kafka.consumer({ groupId: 'mitopic', fromBeginning: true })
+const consumer = kafka.consumer({ groupId: 'mongo-group', fromBeginning: true })
 const run = async () => {
 
     const database = await MongoClient.connect(MONGO_URL) ;
@@ -22,10 +22,10 @@ const run = async () => {
 
     await consumer.run({
     eachMessage: async ({ message }) => {
-        console.log({
-        value: message.value.toString(),
-        key: message.key.toString ()
-        })
+        console.log('Insertando a MongoDB ' + JSON.stringify({
+            value: message.value.toString(),
+            key: message.key.toString ()
+        }));
         const { timestamp, value, key } = message;
         return dbo.collection("metrics").insertOne({ timestamp, value: parseInt(value.toString()), test: key.toString()});
     }

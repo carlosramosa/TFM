@@ -23,8 +23,6 @@ const run = async () => {
     await producer.connect()
     const messages = [
         generateMessage ()
-        // , generateMessage ()
-        // , generateMessage ()
     ];
     await producer.send({
         topic: MULTIPLEXER_TOPIC,

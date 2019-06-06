@@ -4,13 +4,14 @@ const { Kafka } = require('kafkajs')
 const { gt, gte, lt, lte } = require ('lodash');
 const chalk = require('chalk');
 const alert = chalk.red('ALERTA');
-
+const KAFKA_BROKER = process.env.KAFKA_BROKER || 'localhost:9092';
+const ALERTS_TOPIC = process.env.ELASTIC_TOPIC || 'to-alerts';
 const kafka = new Kafka({
     clientId: 'my-app',
-    brokers: ['localhost:9092']
+    brokers: [KAFKA_BROKER]
 })
 
-const consumer = kafka.consumer({ groupId: 'pene-group', fromBeginning: true })
+const consumer = kafka.consumer({ groupId: 'alert-group', fromBeginning: true })
 
 const TTL = process.env.TTL || 10 * 1000;
 const COUNT = process.env.COUNT || 20;
@@ -35,7 +36,7 @@ const run = async () => {
 
 
     await consumer.connect();
-    await consumer.subscribe({ topic: 'to-alerts' });
+    await consumer.subscribe({ topic: ALERTS_TOPIC });
 
     await consumer.run({
     eachMessage: async ({ topic, partition, message }) => {

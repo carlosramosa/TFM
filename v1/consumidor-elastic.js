@@ -21,7 +21,7 @@ const client = new elasticsearch.Client({
     log: 'trace'
 });
 
-const consumer = kafka.consumer({ groupId: 'pene-group', fromBeginning: true })
+const consumer = kafka.consumer({ groupId: 'elastic-group', fromBeginning: true })
 
 const run = async () => {
 
@@ -31,12 +31,11 @@ const run = async () => {
 
     await consumer.run({
     eachMessage: async ({ message }) => {
-        console.log({
+        console.log('Insertando a elastic search ' + JSON.stringify({
         value: message.value.toString(),
         key: message.key.toString ()
-        })
+        }));
         const { timestamp, value, key } = message;
-        const docs = JSON.parse(value.toString());
         return Insert ({ client, docs: { value: JSON.parse(value.toString()), date: new Date (parseFloat(timestamp))}, index: makeIndex ({ key: key.toString(), timestamp: parseFloat(timestamp) }), type: 'metrics' });
     }
     })

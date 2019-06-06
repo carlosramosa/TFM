@@ -11,7 +11,7 @@ const kafka = new Kafka({
     brokers: [KAFKA_BROKER]
 })
 
-const consumer = kafka.consumer({ groupId: 'test-group' });
+const consumer = kafka.consumer({ groupId: 'consumer-group' });
 
 const run = async () => {
 
@@ -23,7 +23,7 @@ const run = async () => {
     await consumer.run({
     eachMessage: async ({ message }) => {
 
-        console.log ('Send message ' + message);
+        console.log ('Multiplexando mensaje ' + JSON.stringify({ key: message.key.toString(), value: message.value.toString()}));
         const topicMessages = [
             {
                 topic: 'to-mongo',

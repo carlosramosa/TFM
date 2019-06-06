@@ -15,7 +15,7 @@ const consumer = kafka.consumer({ groupId: 'mitopic', fromBeginning: true })
 const run = async () => {
 
     const database = await MongoClient.connect(MONGO_URL) ;
-    const dbo = database.db("DATABASE_PRUEBAS");
+    const dbo = database.db("database");
 
     await consumer.connect()
     await consumer.subscribe({ topic: MONGO_TOPIC })
@@ -27,8 +27,8 @@ const run = async () => {
         key: message.key.toString ()
         })
         const { timestamp, value, key } = message;
-        return dbo.collection("miPolla").insertOne({ timestamp, value: parseInt(value.toString()), test: key.toString()});
-    },
+        return dbo.collection("metrics").insertOne({ timestamp, value: parseInt(value.toString()), test: key.toString()});
+    }
     })
 };
 

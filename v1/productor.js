@@ -1,10 +1,12 @@
 const { Kafka } = require('kafkajs');
 
-const MAX_VALUE = process.env.MAX_VALUE || 0;
-const MIN_VALUE = process.env.MIN_VALUE || 100;
+const MAX_VALUE = process.env.MAX_VALUE || 100;
+const MIN_VALUE = process.env.MIN_VALUE || 1;
 const KAFKA_BROKER = process.env.KAFKA_BROKER || 'localhost:9092';
 const TEST = process.env.TEST || 'speed-up';
 const TIMEOUT = process.env.TIMEOUT || 1000;
+const MULTIPLEXER_TOPIC = process.env.MULTIPLEXER_TOPIC || 'to-multiplexer';
+
 
 const kafka = new Kafka({
     clientId: 'my-app',
@@ -25,13 +27,13 @@ const run = async () => {
         // , generateMessage ()
     ];
     await producer.send({
-        topic: 'asd',
+        topic: MULTIPLEXER_TOPIC,
         messages
     });
     setTimeout((() => {
         console.log (messages);
         run();
-    }), 1000);
+    }), TIMEOUT);
 }
 
 run ()

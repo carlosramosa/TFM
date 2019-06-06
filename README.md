@@ -1,6 +1,6 @@
 # Arquitectura Big Data para dispositivos IoT
 
-![alt text](diagrama.png)
+![alt text](images/diagrama.png)
 
 ## REQUISITOS PREVIOS
 
@@ -71,9 +71,13 @@ Para poner en funcionamiento el proyecto necesitaremos crear topics. Si usamos l
 
 Es el encargado de generar los mensajes emulando los dispositivos IoT.
 Tiene las siguientes variables de entorno:
-- `VALUE_MAX`: valor máximo que se podrá generar.
-- `VALUE_MIN`valor mínimo que se podrá generar.
-- `PRODUCTOR_TOPIC`: por defecto `to-multiplexer`
+
+- `TEST`: el nombre del tets que vamos a efectuar desde los dispositivos IoT.
+- `TIMEOUT`: es el tiempo de espera en milisegundos entre el envío de mensaje y mensaje. Por defecto 1000.
+- `VALUE_MAX`: valor máximo que se podrá generar. Por defecto 150.
+- `VALUE_MIN`valor mínimo que se podrá generar. Por defecto 0.
+- `MULTIPLEXER_TOPIC`: por defecto `to-multiplexer`
+- `KAFKA_BROKER`: por defecto `localhost:9092`
 
 Para iniciar el productor, tendremos que ejecutar la instrucción:
 ```
@@ -139,4 +143,34 @@ En este caso, se dejaría un tiempo de margen de 10 segundos para que se empiece
 
 Por otro lado, cada 20 documentos nos informará de la media actual.
 
-Visualización
+## Visualización
+
+Para la visualización usaremos Kibana. Para ello, nos dirigiremos a [http://localhost:5601](localhost:5601).
+![alt text](images/kibana_inicio.png)
+
+### Configuración del patrón
+
+Primero, configuraremos nuestro patrón de índice. Este patrón será el nombre del test elegido en el productor. Para ello, nos dirigiremos a Management, y en la sección de Kibana clicaremos sobre `Index Patterns`.
+![alt text](images/kibana_manage.png)
+
+A continuación, si nuestro test se llama `speed-up`, por ejemplo, definiremos nuestro patrón como `speed-up`y clicaremos sobre `Next Step`
+![alt text](images/kibana_pattern.png)
+A continuación seleccionaremos `date`como `Time Filter field name`.
+![alt text](images/kibana_date.png)
+
+### Configuración de la visualización
+Para generar nuevas visualizaciones, clicaremos sobre `Visualize` en el menú lateral de la izquierda y clicaremos sobre el boton `+`
+![alt text](images/kibana_visualizar.png)
+
+En la siguiente pantalla selecionaremos, por ejemplo, la visualización topo `Line`.
+![alt text](images/kibana_tipo.png)
+
+Configuraremos la visualización con los siguientes parámetros, para tener en el eje Y la media del valor de nuestros documentos y en el eje X el tiempo.
+![alt text](images/kibana_config.png)
+
+Le daremos al botón de reproducir y podemos observar los resultados:
+![alt text](images/kibana_d1.png)
+![alt text](images/kibana_d2.png)
+
+Podemos hacer mas tipos de gráficos y visualizaciones. Como los que se observan en el siguiente Dashboard generado:
+![alt text](images/kibana_dashboard.png)

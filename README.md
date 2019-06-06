@@ -19,7 +19,7 @@ El Centro de Control Confluent es una herramienta que proporciona una serie de f
 Para poner en marcha todo esto, ejecutaremos el script:
 
 ```
-npm run start-kafka
+npm run start-kafka 
 ```
 
 Esto pondrá en marcha los siguientes servicios:

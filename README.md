@@ -151,26 +151,34 @@ Para la visualización usaremos Kibana. Para ello, nos dirigiremos a [http://loc
 ### Configuración del patrón
 
 Primero, configuraremos nuestro patrón de índice. Este patrón será el nombre del test elegido en el productor. Para ello, nos dirigiremos a Management, y en la sección de Kibana clicaremos sobre `Index Patterns`.
+
 ![alt text](images/kibana_manage.png)
 
 A continuación, si nuestro test se llama `speed-up`, por ejemplo, definiremos nuestro patrón como `speed-up`y clicaremos sobre `Next Step`
+
 ![alt text](images/kibana_pattern.png)
 A continuación seleccionaremos `date`como `Time Filter field name`.
+
 ![alt text](images/kibana_date.png)
 
 ### Configuración de la visualización
 Para generar nuevas visualizaciones, clicaremos sobre `Visualize` en el menú lateral de la izquierda y clicaremos sobre el boton `+`
+
 ![alt text](images/kibana_visualizar.png)
 
 En la siguiente pantalla selecionaremos, por ejemplo, la visualización topo `Line`.
+
 ![alt text](images/kibana_tipo.png)
 
 Configuraremos la visualización con los siguientes parámetros, para tener en el eje Y la media del valor de nuestros documentos y en el eje X el tiempo.
+
 ![alt text](images/kibana_config.png)
 
 Le daremos al botón de reproducir y podemos observar los resultados:
+
 ![alt text](images/kibana_d1.png)
 ![alt text](images/kibana_d2.png)
 
 Podemos hacer mas tipos de gráficos y visualizaciones. Como los que se observan en el siguiente Dashboard generado:
+
 ![alt text](images/kibana_dashboard.png)

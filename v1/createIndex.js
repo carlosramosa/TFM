@@ -6,9 +6,11 @@ const client = new elasticsearch.Client({
     log: 'trace'
 });
 
+const makeIndex = ( test ) =>
+    `${test}-${ new Date ().getMonth() + 1 }-${new Date ().getFullYear()}`
 
 
-const exec = ({ client, index = process.env.INDEX, type = process.env.TYPE, properties = JSON.parse(process.env.PROPERTIES) }) =>
+const exec = ({ client, index = makeIndex(process.env.TEST || 'speed-up'), type = process.env.TYPE, properties = { value: { type: 'long' }, date: { type: 'date' } } }) =>
     client.indices.create({
         index,
         body: {
@@ -20,17 +22,3 @@ const exec = ({ client, index = process.env.INDEX, type = process.env.TYPE, prop
         }
     });
 exec ({ client });
-    /**
-     * {
-                    'properties': {
-                        'id': {'type': 'integer'},
-                        'identifier': {'type': 'keyword'},
-                        'species_id': {'type': 'integer'},
-                        'height': {'type': 'integer'},
-                        'weight': {'type': 'integer'},
-                        'base_experience': {'type': 'integer'},
-                        'order': {'type': 'integer'},
-                        'is_default': {'type': 'integer'}
-                    }
-                }
-     */

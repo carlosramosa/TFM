@@ -114,6 +114,12 @@ El consumidor de elastic introducirá en ElasticSearch todos los mensajes que re
 - `ELASTIC_URL`: por defecto `elastic:changeme@localhost:9200`
 - `ELASTIC_TOPIC`: por defecto `to-elastic`
 
+Antes de ejecutarlo, crearemos el índice correspondiente al test. Para ello, ejecutaremos el siguiente script:
+
+```
+npm run create-elastic-index
+```
+
 Para iniciar el consumidor de elastic, ejecutaremos la instrucción:
 ```
 npm run elastic

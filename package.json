@@ -6,7 +6,9 @@
   "scripts": {
     "start-kafka": "cd docker-compose/confluent-kafka && docker-compose up -d --build && cd .. && cd ..",
     "start-elastic-mongo": "cd docker-compose/elastic-compose && docker-compose up -d --build && cd .. && cd ..",
+    "create-elastic-index": "bash ./createIndex.sh",
     "productor": "node v1/productor.js",
+    "create-index": "",
     "consumidor-elastic": "node v1/consumidor-elastic.js",
     "consumidor-mongo": "node v1/consumidor-mongo.js",
     "consumidor-multiplexer": "node v1/consumidor-multiplexer.js",

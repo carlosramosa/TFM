@@ -14,7 +14,7 @@
 ### Kafka
 
 Para comenzar levantaremos los servicios de Kafka. Para ello, usaremos un docker-compose extraido de la página web de Confluent, con una serie de servicios, entre ellos Kafka y el Centro de Control de Confluent.
-El Centro de Control Confluent es una herramienta que proporciona una serie de facilidades para configurar Kafka y los datos que fluyen a través de él. El Centro de Control nos brinda al administrador capacidades de monitoreo y administración a través de paneles de control.
+El Centro de Control Confluent es una herramienta que proporciona una serie de facilidades para configurar Kafka y los datos que fluyen a través de él. El Centro de Control brinda al administrador capacidades de monitoreo y administración a través de paneles de control.
 
 Para poner en marcha todo esto, ejecutaremos el script:
 
